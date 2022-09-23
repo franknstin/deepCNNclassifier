@@ -5,6 +5,7 @@ from box import ConfigBox
 from ensure import ensure_annotations
 import yaml
 from deepClassifier import logger
+import os
 
 @ensure_annotations
 def read_yaml(file_path: Path)-> ConfigBox:
@@ -27,4 +28,15 @@ def read_yaml(file_path: Path)-> ConfigBox:
         raise ValueError("yaml file is empty")
     except Exception as e:
         raise e
-    
+
+@ensure_annotations
+def create_directories(path_to_directories: list, verbose=True):
+    """create list of directories
+    Args:
+        path_to_directories (list): list of path of directories
+        ignore_log (bool, optional): ignore if multiple dirs is to be created. Defaults to False.
+    """
+    for path in path_to_directories:
+        os.makedirs(path, exist_ok=True)
+        if verbose:
+            logger.info(f"created directory at: {path}")
